@@ -15,15 +15,16 @@ var exec = require('cordova/exec');
  * @param {Function} success Success callback
  * @param {Function} error Failure callback
  * @param {Boolean} trustAllCertificates Trusts any certificate when the connection is done over HTTPS.
+ * @param {FileDownloadOptions} options Optional parameters such as headers.
  * @returns {void}
  */
-exports.open = function(uri, success, error, trustAllCertificates) {
+exports.open = function(uri, success, error, trustAllCertificates, options) {
   if (!uri || arguments.length === 0) { return false; }
 
   uri = encodeURI(uri);
 
   if (uri.match('http')) {
-    downloadAndOpen(uri, success, error, trustAllCertificates);
+    downloadAndOpen(uri, success, error, trustAllCertificates, options);
   } else {
     exec(onSuccess.bind(this, uri, success),
          onError.bind(this, error), 'Open', 'open', [uri]);
